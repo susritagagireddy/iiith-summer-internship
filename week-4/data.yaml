@@ -1,0 +1,18 @@
+path: dataset
+
+train: images/train
+val: images/val
+test: images/test
+
+nc: 5
+
+names:
+  0: car
+  1: ambulence
+  2: traffic light
+  3: bicycle
+  4: person
+
+
+
+  
