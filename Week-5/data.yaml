@@ -1,0 +1,47 @@
+path: /home/subha/dataset
+
+train: images/train
+val: images/val
+
+names:
+  0: Car
+  1: person
+  2: cycle
+  3: bike
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
