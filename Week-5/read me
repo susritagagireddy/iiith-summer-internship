@@ -1,1 +1,200 @@
+# Week-5 README
+
+## Overview
+
+This week focused on building a complete custom object detection pipeline using YOLO and Label Studio. The workflow included dataset preparation, image annotation, preprocessing, model training, testing, and output video generation.
+
+---
+
+# Objectives
+
+* Learn image annotation using Label Studio
+* Prepare a custom YOLO dataset
+* Train a pretrained YOLO model on custom classes
+* Detect objects on unseen test images
+* Generate prediction videos from outputs
+
+---
+
+# Tools and Technologies
+
+* Ubuntu / WSL
+* Python Virtual Environment
+* Label Studio
+* YOLOv8 (Ultralytics)
+* FFmpeg
+* OpenCV
+* Google Colab / Local System
+
+---
+
+# Dataset Preparation
+
+## Step 1: Video Processing
+
+* Downloaded videos from YouTube
+* Trimmed videos using FFmpeg
+* Extracted frames from videos
+
+Example:
+
+```bash
+ffmpeg -i video.mp4 -vf "fps=5,scale=384:-1" frames/frame_%04d.jpg
+```
+
+---
+
+## Step 2: Dataset Splitting
+
+Frames were divided into:
+
+* Train set
+* Validation set
+* Test set
+
+Example split:
+
+* Train: 200 images
+* Validation: 60 images
+* Test: 30 images
+
+---
+
+# Image Annotation
+
+## Label Studio
+
+* Installed Label Studio in a virtual environment
+* Opened interface on:
+
+```text
+http://localhost:8080
+```
+
+## Classes Used
+
+* Car
+* Person
+* Cycle
+* Bike
+
+Bounding boxes were created for all selected objects.
+
+---
+
+# YOLO Dataset Structure
+
+```text
+dataset/
+│
+├── images/
+│   ├── train/
+│   ├── val/
+│   └── test/
+│
+├── labels/
+│   ├── train/
+│   └── val/
+│
+└── data.yaml
+```
+
+---
+
+# data.yaml Configuration
+
+```yaml
+path: /home/subha/dataset
+
+train: images/train
+val: images/val
+
+names:
+  0: Car
+  1: person
+  2: cycle
+  3: bike
+```
+
+---
+
+# Model Training
+
+## Training Command
+
+```bash
+yolo detect train \
+data=/home/subha/dataset/data.yaml \
+model=yolov8n.pt \
+epochs=100 \
+imgsz=640
+```
+
+## Training Observations
+
+* Training loss decreased initially
+* Validation loss was monitored
+* Overfitting was observed when validation loss started increasing
+
+---
+
+# Generated Outputs
+
+Important files generated:
+
+* `best.pt`
+* `last.pt`
+* `results.png`
+* prediction outputs
+
+Custom trained weights were saved separately for inference.
+
+---
+
+# Object Detection on Test Images
+
+## Prediction Command
+
+```bash
+yolo detect predict \
+model=runs/detect/train/weights/best.pt \
+source=/home/subha/dataset/images/test \
+save=True
+```
+
+Outputs were generated with bounding boxes around detected objects.
+
+---
+
+# Video Generation
+
+Prediction images were converted into videos using FFmpeg.
+
+Example:
+
+```bash
+ffmpeg -framerate 5 -i frame_%04d.jpg output.mp4
+```
+
+Videos were further enhanced by stacking outputs and adding music.
+
+---
+
+# Learning Outcomes
+
+Through this task, the following concepts were learned:
+
+* Dataset preparation
+* Image annotation
+* YOLO training workflow
+* Validation and overfitting analysis
+* Object detection inference
+* FFmpeg video processing
+* End-to-end computer vision pipeline development
+
+---
+
+# Conclusion
+
+Successfully developed a custom object detection application capable of detecting trained objects from unseen test images and generating automated visual outputs using computer vision techniques.
 
